@@ -1,6 +1,6 @@
 <?php
 
-namespace LIBRESSLtd\LBMediaCenter;
+namespace VietAnh\MediaCenter;
 
 use Illuminate\Support\ServiceProvider;
 
