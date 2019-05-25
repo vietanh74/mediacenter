@@ -4,7 +4,7 @@ namespace LIBRESSLtd\LBMediaCenter;
 
 use Illuminate\Support\ServiceProvider;
 
-class LBMediaCenterServiceProvider extends ServiceProvider
+class MediaCenterServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -20,7 +20,7 @@ class LBMediaCenterServiceProvider extends ServiceProvider
 	        __DIR__.'/models' => base_path('app/Models'),
 	        // __DIR__.'/requests' => base_path('app/Http/Requests/LBMediaCenter'),
 	        // __DIR__.'/config' => base_path('config'),
-	    ], 'lbmediacenter');
+	    ], 'mediacenter');
     }
 
     /**
@@ -31,12 +31,6 @@ class LBMediaCenterServiceProvider extends ServiceProvider
     public function register()
     {
         include __DIR__.'/routes.php';
-        $this->app->make('LIBRESSLtd\LBMediaCenter\Controllers\MediaController');
-        // $this->app->make('LIBRESSLtd\DeepPermission\Controllers\PermissionGroupController');
-        // $this->app->make('LIBRESSLtd\DeepPermission\Controllers\PermissionController');
-        // $this->app->make('LIBRESSLtd\DeepPermission\Controllers\UserRoleController');
-        // $this->app->make('LIBRESSLtd\DeepPermission\Controllers\RolePermissionController');
-        // $this->app->make('LIBRESSLtd\DeepPermission\Controllers\UserPermissionController');
-        // $this->app->make('LIBRESSLtd\DeepPermission\Controllers\SettingController');
+        $this->app->make('VietAnh\MediaCenter\Controllers\MediaController');
     }
 }
