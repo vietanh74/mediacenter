@@ -1,5 +1,5 @@
 {
-    "name": "libressltd/lbmediacenter",
+    "name": "vietanh74/mediacenter",
     "description": "Media center",
     "type": "library",
     "require": {
@@ -10,13 +10,13 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "LIBRE SS Ltd",
-            "email": "contact@libreteam.com"
+            "name": "Viet Anh",
+            "email": "tavietanh74@gmail.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "LIBRESSLtd\\LBMediaCenter\\": "src/"
+            "VietAnh\\MediaCenter\\": "src/"
         },
         "classmap": ["src/controllers"]
     },
