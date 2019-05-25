@@ -1,0 +1,24 @@
+{
+    "name": "libressltd/lbmediacenter",
+    "description": "Media center",
+    "type": "library",
+    "require": {
+        "intervention/image": "*",
+        "guzzlehttp/guzzle": "*",
+        "alsofronie/eloquent-uuid": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "LIBRE SS Ltd",
+            "email": "contact@libreteam.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LIBRESSLtd\\LBMediaCenter\\": "src/"
+        },
+        "classmap": ["src/controllers"]
+    },
+    "minimum-stability": "dev"
+}
