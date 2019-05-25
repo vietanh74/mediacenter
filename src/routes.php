@@ -1,13 +1,13 @@
 <?php
 
-Route::get("lbmediacenter/{media_id}", "libressltd\lbmediacenter\controllers\MediaController@show");
+Route::get("mediacenter/{media_id}", "vietanh\mediacenter\controllers\MediaController@show");
 Route::group(['middleware' => ['web', 'auth']], function () {
-	Route::post("lbmedia", "libressltd\lbmediacenter\controllers\MediaController@store");
-	Route::resource("lbmediacenter", "libressltd\lbmediacenter\controllers\MediaController");
+	Route::post("media", "vietanh\mediacenter\controllers\MediaController@store");
+	Route::resource("mediacenter", "vietanh\mediacenter\controllers\MediaController");
 });
-Route::get("lbmedia/{media_id}", "libressltd\lbmediacenter\controllers\MediaController@show");
+Route::get("media/{media_id}", "vietanh\mediacenter\controllers\MediaController@show");
 
 
 Route::group(['middleware' => ['api', 'auth:api']], function () {
-	Route::resource("api/lbmedia", "libressltd\lbmediacenter\controllers\MediaController");
+	Route::resource("api/media", "vietanh\mediacenter\controllers\MediaController");
 });

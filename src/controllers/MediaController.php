@@ -1,6 +1,6 @@
 <?php
 
-namespace LIBRESSLtd\LBMediaCenter\Controllers;
+namespace VietAnh\MediaCenter\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
