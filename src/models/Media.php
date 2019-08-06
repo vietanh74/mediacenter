@@ -13,22 +13,28 @@ class Media extends Model
 {
     use Uuid32ModelTrait;
 
-    static function saveFile($file, $is_base64 = false)
+    static function saveFile($file, $is_intervention = false)
     {
         $media = new Media;
-        $media->mime_type = $file->getMimeType();
-        $media->original_extension = $file->getClientOriginalExtension();
-        $media->original_name = $file->getClientOriginalName();
 
-        $media->size = $file->getSize();
-        $media->save();
-        if ($is_base64)
+        if ($is_intervention)
         {
-            $data = base64_decode(file_get_contents($file));
-            Storage::put('media/'.$media->id, $data);
+            $media->mime_type = $file->mime();
+            $media->original_name = 'crop_image';
+            $media->original_extension = 'image';
+            
+            $media->save();
+            Storage::put('media/'.$media->id, (string) $file);
         }
         else
         {
+            $media->mime_type = $file->getMimeType();
+            $media->original_extension = $file->getClientOriginalExtension();
+            $media->original_name = $file->getClientOriginalName();
+
+            $media->size = $file->getSize();
+            $media->save();
+
             Storage::putFileAs('media', $file, $media->id);
         }
         return $media;
@@ -88,7 +94,7 @@ class Media extends Model
 
                     $cutted_width;
                     $cutted_height;
-                    if ($style == "scale_to_fill")
+                    if ($stype = "scale_to_fill")
                     {
                         if ($needed_ratio > $current_ratio)
                         {
@@ -106,17 +112,14 @@ class Media extends Model
                         if ($needed_ratio < $current_ratio)
                         {
                             $cutted_width = $img->width();
-                            $cutted_height = intval($cutted_width / $current_ratio);
-                            $height = intval($width / $current_ratio);
+                            $cutted_height = intval($cutted_width / $needed_ratio);
                         }
                         else
                         {
                             $cutted_height = $img->height();
-                            $cutted_width = intval($cutted_height * $current_ratio);
-                            $width = intval($height * $current_ratio);
+                            $cutted_width = intval($cutted_height * $needed_ratio);
                         }
                     }
-
                     $img->crop($cutted_width, $cutted_height);
                     $img->resize($width, $height);
 
@@ -147,9 +150,9 @@ class Media extends Model
     {
         if ($width && $height && $style)
         {
-            return url("lbmedia/$this->id?width=$width&height=$height&style=$style");
+            return url("media/$this->id?width=$width&height=$height&style=$style");
         }
-        return url("lbmedia/$this->id");
+        return url("media/$this->id");
     }
 
     public function path()
@@ -167,10 +170,11 @@ class Media extends Model
         return $this->hasMany("App\Models\Media", "original_id");
     }
 
-    static public function boot()
+    public static function boot()
     {
-        Media::bootUuid32ModelTrait();
-        Media::saving(function ($media) {
+        parent::boot();
+        static::bootUuid32ModelTrait();
+        static::saving(function ($media) {
             if (Auth::user())
             {
                 if ($media->id)

@@ -13,7 +13,6 @@ class MediaCenterServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/views', 'mc');
 		$this->publishes([
 	        // __DIR__.'/views' => base_path('resources/views/libressltd/lbmediacenter'),
 	        __DIR__.'/migrations' => base_path('database/migrations'),
