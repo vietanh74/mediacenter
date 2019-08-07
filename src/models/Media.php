@@ -13,31 +13,36 @@ class Media extends Model
 {
     use Uuid32ModelTrait;
 
-    static function saveFile($file, $is_intervention = false)
+    static function saveFile($file)
     {
         $media = new Media;
+        $image = Image::make($file);
+        $media->mime_type = $image->mime();
+        $media->width = $image->width();
+        $media->height = $image->height();
+        $media->size = $image->filesize();
+        $media->original_name = $file->getClientOriginalName();
+        $media->save();
 
-        if ($is_intervention)
-        {
-            $media->mime_type = $file->mime();
-            $media->original_name = 'crop_image';
-            $media->original_extension = 'image';
-            
-            $media->save();
-            Storage::put('media/'.$media->id, (string) $file);
-        }
-        else
-        {
-            $media->mime_type = $file->getMimeType();
-            $media->original_extension = $file->getClientOriginalExtension();
-            $media->original_name = $file->getClientOriginalName();
+        Storage::putFileAs('media', $file, $media->id);
 
-            $media->size = $file->getSize();
-            $media->save();
-
-            Storage::putFileAs('media', $file, $media->id);
-        }
         return $media;
+    }
+
+    static function coverAndSave($file, $w = 200)
+    {
+        $image = Image::make($file)->fit($width = $w)->encode('jpg', 90);
+
+        $media = new Media;
+        $media->mime_type = $image->mime();
+        $media->original_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '.jpg';
+        $media->save();
+        
+        Storage::put('media/'.$media->id, (string) $image);
+        $media->update_image_info();
+
+        return $media;
+
     }
 
     static function download_file($url)
@@ -47,8 +52,6 @@ class Media extends Model
         $body = $res->getBody();
 
         $media = new Media;
-        $media->original_extension = "";
-        $media->original_name = "";
         $media->mime_type = $res->getHeader("Content-Type")[0];
         $media->size = $res->getHeader("Content-Length")[0];
         $media->save();
@@ -60,11 +63,12 @@ class Media extends Model
 
     public function update_image_info()
     {
-        $img = Image::make($this->path());
-        if ($img)
+        $image = Image::make($this->path());
+        if ($image)
         {
-            $this->width = $img->width();
-            $this->height = $img->height();
+            $this->width = $image->width();
+            $this->height = $image->height();
+            $this->size = $image->filesize();
             $this->save();
         }
     }
@@ -125,7 +129,6 @@ class Media extends Model
 
                     $new_media = new Media;
                     $new_media->mime_type = $media->mime_type;
-                    $new_media->original_extension = $media->original_extension;
                     $new_media->original_name = $media->original_name;
 
                     $new_media->width = $width;
