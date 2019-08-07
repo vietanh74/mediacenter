@@ -20,9 +20,9 @@ class CreateMediaTable extends Migration {
 			$table->integer('size')->nullable();
 			$table->char('updated_by', 32)->nullable();
 			$table->char('created_by', 32)->nullable();
-			$table->timestamps();
 			$table->string('width', 225)->nullable();
 			$table->string('height', 225)->nullable();
+			$table->timestamps();
 		});
 	}
 
