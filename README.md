@@ -1,14 +1,14 @@
 # lbmediacenter
 
-### Step 1: Install LBMediaCenter
+### Step 1: Install MediaCenter
 
-composer require libressltd/lbmediacenter
+composer require vietanh/mediacenter
 
 ### Step 2: Add service provider to config/app.php
 
 ```php
 
-LIBRESSLtd\LBMediaCenter\LBMediaCenterServiceProvider::class,
+VietAnh\MediaCenter\MediaCenterServiceProvider::class,
 
 ```
 
@@ -16,7 +16,7 @@ LIBRESSLtd\LBMediaCenter\LBMediaCenterServiceProvider::class,
 
 ```php
 
-php artisan vendor:publish --tag=lbmediacenter --force
+php artisan vendor:publish --tag=mediacenter --force
 php artisan migrate
 php artisan storage:link
 
@@ -48,4 +48,4 @@ $media->path();
 
 ### Step 5: see upload file 
 
-http://your-host-name/lbmediacenter/image-id
+http://your-host-name/mediacenter/image-id
