@@ -22,6 +22,7 @@ class Media extends Model
         $media->height = $image->height();
         $media->size = $image->filesize();
         $media->original_name = $file->getClientOriginalName();
+        $media->original_extension = $file->getClientOriginalExtension();
         $media->save();
 
         Storage::putFileAs('media', $file, $media->id);
@@ -36,6 +37,7 @@ class Media extends Model
         $media = new Media;
         $media->mime_type = $image->mime();
         $media->original_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '.jpg';
+        $media->original_extension = 'jpg';
         $media->save();
         
         Storage::put('media/'.$media->id, (string) $image);
