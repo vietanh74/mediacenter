@@ -20,5 +20,12 @@
         },
         "classmap": ["src/controllers"]
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "VietAnh\\MediaCenter\\MediaCenterServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev"
 }
